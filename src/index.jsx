@@ -81,8 +81,8 @@ export default function Home() {
             <div className={`${!ShowIntro && 'opacity-0'} font-bold text-[100px]`}>You Found The About Me.</div>
         </div>
         <div>
-            <img className="float-left w-52 h-52 " src="/" />
-            <p className = "">I'm a photographer based in Colorado Springs. My photography mostly consists of scenes that I capture because
+            <img className="float-left w-100 h-100 " src="/" />
+            <p className = "float-right text-2xl grid grid-cols-1fr 1fr max-w-5xl pr-64">I'm a photographer based in Colorado Springs. My photography mostly consists of scenes that I capture because
             something in them intrigues me. This usually means foggy atmospheric landscapes, details of everyday life or lighting that i just can't resist to photograph
             I also have a collection of self portaits, because i like to have subjects in my landscapes, but most of the time I go out and shoot alone. I started photography about a year ago and learned Affinity Photo 2 around the same
             time aswell. My editing and photography back then were terrible at the the time, but I slowly became better at the craft and also found my space in photography. </p>

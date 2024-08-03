@@ -27,9 +27,9 @@ export default function Home() {
     <>
         <div
           ref={introRef}
-          className={`${ShowIntro && 'opacity-0'} fixed w-full text-center top-[100px] text-[300px] font-bold`}
+          className={`${ShowIntro && 'opacity-0'} fixed w-full text-center top-[200px] text-[100px] font-bold`}
         >
-          Hello.
+          You Found The About Me.
         </div>
         <div
             className="absolute w-full h-full overflow-hidden"
@@ -48,13 +48,13 @@ export default function Home() {
             />
             <AnimatePresence>
                 { scrollY < (window.innerHeight / 4) && (
-                    <motion.div 
+                    <motion.div
                         className="absolute flex justify-center items-center flex-col max-w-max bottom-[10%] left-0 right-0 m-auto z-30"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1, transition: { delay: .5 } }}
                         exit={{ opacity: 0 }}
                     >
-                        Explore more
+                        About My Work
                         <svg className="animate-bounce w-12 h-12 fill-white" viewBox="0 0 24 24"><path d="M18.71,8.21a1,1,0,0,0-1.42,0l-4.58,4.58a1,1,0,0,1-1.42,0L6.71,8.21a1,1,0,0,0-1.42,0,1,1,0,0,0,0,1.41l4.59,4.59a3,3,0,0,0,4.24,0l4.59-4.59A1,1,0,0,0,18.71,8.21Z"/></svg>
                     </motion.div>
                 ) }
@@ -67,7 +67,7 @@ export default function Home() {
                     backgroundSize: "cover",
                 }}
             />
-            <motion.div 
+            <motion.div
                 className="fixed tracking-tighter w-full text-center text-[300px] font-bold z-10"
                 style={{ left: '50%', transform: 'translate(-50%, -50%)' }}
                 initial={{ opacity: 0, top: '22.5%' }}
@@ -78,8 +78,16 @@ export default function Home() {
             </motion.div>
         </div>
         <div className="w-full pt-[calc(100vh+200px)] text-center">
-            <div className={`${!ShowIntro && 'opacity-0'} font-bold text-[300px]`}>Hello.</div>
+            <div className={`${!ShowIntro && 'opacity-0'} font-bold text-[100px]`}>You Found The About Me.</div>
         </div>
+        <div>
+            <img className="float-left w-52 h-52 " src="/" />
+            <p className = "">I'm a photographer based in Colorado Springs. My photography mostly consists of scenes that I capture because
+            something in them intrigues me. This usually means foggy atmospheric landscapes, details of everyday life or lighting that i just can't resist to photograph
+            I also have a collection of self portaits, because i like to have subjects in my landscapes, but most of the time I go out and shoot alone. I started photography about a year ago and learned Affinity Photo 2 around the same
+            time aswell. My editing and photography back then were terrible at the the time, but I slowly became better at the craft and also found my space in photography. </p>
+        </div>
+
         <div className="pt-[500px] opacity-0">A</div>
     </>
   );

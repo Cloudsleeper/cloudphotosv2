@@ -68,13 +68,13 @@ export default function Home() {
                 }}
             />
             <motion.div 
-                className="fixed w-full text-center text-[300px] font-bold z-10"
+                className="fixed tracking-tighter w-full text-center text-[300px] font-bold z-10"
                 style={{ left: '50%', transform: 'translate(-50%, -50%)' }}
-                initial={{ opacity: 0, top: '20%' }}
-                animate={{ opacity: 1, top: '25%' }}
+                initial={{ opacity: 0, top: '22.5%' }}
+                animate={{ opacity: 1, top: '27.5%' }}
                 transition={{ duration: .5, delay: .5, ease: 'easeInOut' }}
             >
-                A Slogan.
+                I'm Cloud.
             </motion.div>
         </div>
         <div className="w-full pt-[calc(100vh+200px)] text-center">

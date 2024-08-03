@@ -68,9 +68,10 @@ export default function Home() {
                 }}
             />
             <motion.div 
-                className="fixed w-full text-center 2xl:top-[2.5%] text-[300px] font-bold z-10"
-                initial={{ opacity: 0, top: -100 }}
-                animate={{ opacity: 1, top: 0 }}
+                className="fixed w-full text-center text-[300px] font-bold z-10"
+                style={{ left: '50%', transform: 'translate(-50%, -50%)' }}
+                initial={{ opacity: 0, top: '20%' }}
+                animate={{ opacity: 1, top: '25%' }}
                 transition={{ duration: .5, delay: .5, ease: 'easeInOut' }}
             >
                 A Slogan.

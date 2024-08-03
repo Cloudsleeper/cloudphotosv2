@@ -27,7 +27,7 @@ export default function Home() {
     <>
         <div
           ref={introRef}
-          className={`${ShowIntro && 'opacity-0'} fixed w-full text-center top-[200px] text-[100px] font-bold`}
+          className={`${ShowIntro && 'opacity-0'} fixed w-full text-center top-1/2 text-[100px] font-bold`}
         >
           You Found The About Me.
         </div>

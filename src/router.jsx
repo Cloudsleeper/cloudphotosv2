@@ -5,6 +5,7 @@ import BlogPage from "./blog/page";
 import Navigation from "../components/navigation";
 import Contact from "./contact.jsx";
 
+
 function Router() {
   return (
     <BrowserRouter>

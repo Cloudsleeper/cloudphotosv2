@@ -3,6 +3,7 @@ import Home from "./index";
 import BlogIndex from "./blog";
 import BlogPage from "./blog/page";
 import Navigation from "../components/navigation";
+import Contact from "./contact.jsx";
 
 function Router() {
   return (
@@ -11,7 +12,8 @@ function Router() {
       <Routes>
         <Route path="/" Component={Home} />
         <Route path="/blog" Component={BlogIndex} />
-        <Route path="/blog/:blogId" Component={BlogPage} />
+        <Route path="/blog/:id" Component={BlogPage} />
+        <Route path="/contact" Component={Contact} />
       </Routes>
     </BrowserRouter>
   )

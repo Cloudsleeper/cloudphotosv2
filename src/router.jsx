@@ -4,6 +4,7 @@ import BlogIndex from "./blog";
 import BlogPage from "./blog/page";
 import Navigation from "../components/navigation";
 import Contact from "./contact.jsx";
+import Portfolio from "./portfolio.jsx";
 
 
 function Router() {
@@ -15,6 +16,7 @@ function Router() {
         <Route path="/blog" Component={BlogIndex} />
         <Route path="/blog/:id" Component={BlogPage} />
         <Route path="/contact" Component={Contact} />
+        <Route path="/portfolio" Component={Portfolio} />
       </Routes>
     </BrowserRouter>
   )

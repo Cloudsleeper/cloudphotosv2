@@ -23,3 +23,14 @@ html {
 .animate-bounce {
     animation: bounce 1s infinite;
 }
+/* Masonry Grid Styles */
+.my-masonry-grid {
+    display: flex;
+    margin-left: -30px; /* Adjust if needed */
+    width: auto;
+}
+
+.my-masonry-grid_column {
+    padding-left: 30px; /* Adjust if needed */
+    background-clip: padding-box;
+}

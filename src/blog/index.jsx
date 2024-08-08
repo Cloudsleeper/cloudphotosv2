@@ -36,11 +36,11 @@ export default function BlogIndex() {
                     <div key={post.id} className="mb-8 p-4 border-b border-gray-300">
                         <h2 className="text-2xl font-semibold mb-2">
                             <Link to={`/blog/${post.id}`} className="text-blue-500 hover:underline">
-                                {post.title}
+                                {post.fields.title}
                             </Link>
                         </h2>
-                        <p className="text-gray-600 mb-4">{post.date}</p>
-                        <p className="text-lg">{post.excerpt}</p>
+                        <p className="text-gray-600 mb-4">{post.fields.date}</p>
+                        <p className="text-lg">{post.fields.excerpt}</p>
                     </div>
                 ))
             )}

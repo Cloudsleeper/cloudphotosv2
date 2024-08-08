@@ -27,7 +27,7 @@ export default function Home() {
         <>
             <div
                 ref={introRef}
-                className={`fixed w-full text-center top-1/2 transform -translate-y-1/2 text-[50px] md:text-[100px] font-bold transition-opacity duration-500 ${showIntro && 'opacity-0'}`}
+                className={`fixed w-full text-center top-[45%] transform -translate-y-1/2 text-[50px] md:text-[100px] font-bold ${showIntro && 'opacity-0'}`}
             >
                 You Found The About Me.
             </div>
@@ -82,7 +82,7 @@ export default function Home() {
             </div>
 
             <div className="w-full pt-[calc(100vh+200px)] text-center">
-                <div className={`${!showIntro && 'opacity-0'} font-bold text-[40px] md:text-[100px] transition-opacity duration-500`}>
+                <div className={`${!showIntro && 'opacity-0'} font-bold text-[40px] md:text-[100px]`}>
                     You Found The About Me.
                 </div>
             </div>

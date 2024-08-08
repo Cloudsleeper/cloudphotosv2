@@ -5,34 +5,26 @@ import { fetchPosts } from '../../components/airtable.js';
 export default function BlogIndex() {
     const [posts, setPosts] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
 
     useEffect(() => {
         const getPosts = async () => {
-            try {
-                const fetchedPosts = await fetchPosts();
-                console.log('Fetched posts:', fetchedPosts); // Debug line
-                setPosts(fetchedPosts);
-            } catch (error) {
-                console.error('Error fetching posts:', error);
-                setError(error.message);
-            } finally {
-                setLoading(false);
-            }
+            const fetchedPosts = await fetchPosts();
+            setPosts(fetchedPosts);
+            setLoading(false);
         };
         getPosts();
     }, []);
 
-    if (loading) return <div>Loading...</div>;
-    if (error) return <div>Error: {error}</div>;
+    if (loading) return (
+    <div className='w-screen h-screen flex justify-center items-center'>
+        <div class="loader"></div>
+    </div>
+    );
 
     return (
         <div className="max-w-4xl mx-auto pt-32">
             <h1 className="text-6xl font-bold mb-8">You Found My Blogs!</h1>
-            {posts.length === 0 ? (
-                <p>No posts available.</p>
-            ) : (
-                posts.map(post => (
+            {posts.map(post => (
                     <div key={post.id} className="mb-8 p-4 border-b border-gray-300">
                         <h2 className="text-2xl font-semibold mb-2">
                             <Link to={`/blog/${post.id}`} className="text-blue-500 hover:underline">
@@ -42,8 +34,7 @@ export default function BlogIndex() {
                         <p className="text-gray-600 mb-4">{post.fields.date}</p>
                         <p className="text-lg">{post.fields.excerpt}</p>
                     </div>
-                ))
-            )}
+            ))}
         </div>
     );
 }

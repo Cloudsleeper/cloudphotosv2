@@ -22,14 +22,14 @@ export default function Home() {
             window.removeEventListener("scroll", handleScroll);
         };
     }, []);
-
+ 
     return (
         <>
             <div
                 ref={introRef}
-                className={`fixed w-full text-center top-[45%] transform -translate-y-1/2 text-[50px] md:text-[100px] font-bold ${showIntro && 'opacity-0'}`}
+                className={`fixed w-full text-center top-[45%] transform -translate-y-1/2 px-4 md:px-20 text-[40px] sm:text-[70px] lg:text-[100px] font-bold ${showIntro && 'opacity-0'}`}
             >
-                You Found The About Me.
+                Driven by Everyday Beauty
             </div>
 
             <div
@@ -71,7 +71,7 @@ export default function Home() {
                     }}
                 />
                 <motion.div
-                    className="fixed tracking-tighter w-full text-center text-[100px] md:text-[300px] font-bold z-10"
+                    className="fixed tracking-tighter w-full text-center text-[100px] sm:text-[200px] xl:text-[300px] font-bold z-10 leading-[.8]"
                     style={{ left: '50%', transform: 'translate(-50%, -50%)' }}
                     initial={{ opacity: 0, top: '22.5%' }}
                     animate={{ opacity: 1, top: '27.5%' }}
@@ -81,16 +81,19 @@ export default function Home() {
                 </motion.div>
             </div>
 
-            <div className="w-full pt-[calc(100vh+200px)] text-center">
-                <div className={`${!showIntro && 'opacity-0'} font-bold text-[40px] md:text-[100px]`}>
-                    You Found The About Me.
+            <div className="px-4 md:px-20 w-full pt-[calc(100vh+200px)] text-center">
+                <div className={`${!showIntro && 'opacity-0'} font-bold text-[40px] sm:text-[70px] lg:text-[100px]`}>
+                    Driven by Everyday Beauty
                 </div>
             </div>
 
-            <div className="p-4 md:p-8">
-                <img className="w-full h-auto mb-4 md:mb-0 md:w-1/2 md:float-left md:mr-4 rounded-lg shadow-md" src="/img/your-image.jpg" alt="Description" />
-                <p className="text-lg md:text-2xl md:max-w-5xl md:float-right">
-                    I'm a photographer based in Colorado Springs. My photography mostly consists of scenes that I capture because something in them intrigues me. This usually means foggy atmospheric landscapes, details of everyday life or lighting that I just can't resist to photograph. I also have a collection of self-portraits because I like to have subjects in my landscapes, but most of the time I go out and shoot alone. I started photography about a year ago and learned Affinity Photo 2 around the same time as well. My editing and photography back then were terrible at the time, but I slowly became better at the craft and also found my space in photography.
+            <div className="px-8 sm:px-20 xl:px-8 py-8 flex max-lg:flex-col justify-center items-center gap-20 lg:gap-12">
+                <div className="relative w-full sm:w-3/4 md:w-[400px] md:h-[400px]">
+                    <div className="absolute w-full h-full bg-white top-10 right-10"></div>
+                    <img className="relative w-full h-full object-cover" src="/img/MichaelandNickWithCoffee.webp" alt="Description"/>
+                </div>
+                <p className="text-2xl w-full lg:w-[700px]">
+                    I'm a photographer based in <strong>Colorado Springs</strong>. My photography mostly consists of scenes that I capture because something in them intrigues me. This usually means foggy atmospheric landscapes, details of everyday life or lighting that I just can't resist to photograph. I also have a collection of self-portraits because I like to have subjects in my landscapes, but most of the time I go out and shoot alone. I started photography about a year ago and learned Affinity Photo 2 around the same time as well. My editing and photography back then were terrible at the time, but I slowly became better at the craft and also found my space in photography.
                 </p>
             </div>
 

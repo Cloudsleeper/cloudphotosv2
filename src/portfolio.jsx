@@ -8,6 +8,20 @@ import 'yet-another-react-lightbox/styles.css'; // Import the lightbox styles
 const photos = [
     { src: '/img/MichaelandNickWithCoffee.webp', alt: 'Photo 1' },
     { src: '/img/UndergroundClub.jpg', alt: 'Photo 2' },
+    { src: '/img/MichaelandNickWithCoffee.webp', alt: 'Photo 1' },
+    { src: '/img/UndergroundClub.jpg', alt: 'Photo 2' },
+    { src: '/img/UndergroundClub.jpg', alt: 'Photo 2' },
+    { src: '/img/MichaelandNickWithCoffee.webp', alt: 'Photo 1' },
+    { src: '/img/UndergroundClub.jpg', alt: 'Photo 2' },
+    { src: '/img/MichaelandNickWithCoffee.webp', alt: 'Photo 1' },
+    { src: '/img/MichaelandNickWithCoffee.webp', alt: 'Photo 1' },
+    { src: '/img/UndergroundClub.jpg', alt: 'Photo 2' },
+    { src: '/img/MichaelandNickWithCoffee.webp', alt: 'Photo 1' },
+    { src: '/img/UndergroundClub.jpg', alt: 'Photo 2' },
+    { src: '/img/UndergroundClub.jpg', alt: 'Photo 2' },
+    { src: '/img/MichaelandNickWithCoffee.webp', alt: 'Photo 1' },
+    { src: '/img/UndergroundClub.jpg', alt: 'Photo 2' },
+    { src: '/img/MichaelandNickWithCoffee.webp', alt: 'Photo 1' },
 ];
 
 const breakpoints = {

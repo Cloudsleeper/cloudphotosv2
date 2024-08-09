@@ -1,9 +1,9 @@
 import Airtable from 'airtable';
 
-// Replace these with your Airtable API key and base ID
-const API_KEY = 'patnk2jMelLPdlME9.9b0bf68cc345cca8c8a5580d31f367054bc6997248f457eeafa94b1457a4f1e4';
-const BASE_ID = 'app7DZcFXwbGyZTxT';
-const TABLE_ID = 'tblkXHeRXjONrDdfB'; // The name of your table
+// Access environment variables
+const API_KEY = import.meta.env.VITE_AIRTABLE_API_KEY;
+const BASE_ID = import.meta.env.VITE_AIRTABLE_BASE_ID;
+const TABLE_ID = import.meta.env.VITE_AIRTABLE_TABLE_ID;
 
 const base = new Airtable({ apiKey: API_KEY }).base(BASE_ID);
 

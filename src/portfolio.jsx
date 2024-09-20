@@ -1,27 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Masonry from 'react-masonry-css';
-import { motion } from 'framer-motion';
 import 'tailwindcss/tailwind.css';
-import Lightbox from 'yet-another-react-lightbox';
-import 'yet-another-react-lightbox/styles.css'; // Import the lightbox styles
 
 const photos = [
-    { src: '/img/MichaelandNickWithCoffee.webp', alt: 'Photo 1' },
-    { src: '/img/Train.webp', alt: 'Photo 2' },
-    { src: '/img/NickLookingOut.webp', alt: 'Photo 1' },
-    { src: '/img/UndergroundClub.jpg', alt: 'Photo 2' },
-    { src: '/img/UndergroundClub.jpg', alt: 'Photo 2' },
-    { src: '/img/MichaelandNickWithCoffee.webp', alt: 'Photo 1' },
-    { src: '/img/UndergroundClub.jpg', alt: 'Photo 2' },
-    { src: '/img/MichaelandNickWithCoffee.webp', alt: 'Photo 1' },
-    { src: '/img/MichaelandNickWithCoffee.webp', alt: 'Photo 1' },
-    { src: '/img/UndergroundClub.jpg', alt: 'Photo 2' },
-    { src: '/img/MichaelandNickWithCoffee.webp', alt: 'Photo 1' },
-    { src: '/img/UndergroundClub.jpg', alt: 'Photo 2' },
-    { src: '/img/UndergroundClub.jpg', alt: 'Photo 2' },
-    { src: '/img/MichaelandNickWithCoffee.webp', alt: 'Photo 1' },
-    { src: '/img/UndergroundClub.jpg', alt: 'Photo 2' },
-    { src: '/img/MichaelandNickWithCoffee.webp', alt: 'Photo 1' },
+    { src: '/img/MichaelandNickWithCoffee.webp', alt: 'Michael and Nick with coffee' },
+    { src: '/img/Train.webp', alt: 'Train' },
+    { src: '/img/NickLookingOut.webp', alt: 'Nick looking out' },
+    { src: '/img/UndergroundClub.jpg', alt: 'Underground club' },
+    // Ensure there are no duplicate entries or filter them if necessary
 ];
 
 const breakpoints = {
@@ -32,47 +18,22 @@ const breakpoints = {
 };
 
 export default function Portfolio() {
-    const [showIntro, setShowIntro] = useState(false);
-    const [lightboxOpen, setLightboxOpen] = useState(false);
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+    const [selectedImage, setSelectedImage] = useState(null);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            setShowIntro(window.scrollY > 100);
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        };
-    }, []);
-
-    const openLightbox = (index) => {
-        setCurrentImageIndex(index);
-        setLightboxOpen(true);
+    const openImageViewer = (src) => {
+        setSelectedImage(src);
     };
 
-    const closeLightbox = () => {
-        setLightboxOpen(false);
+    const closeImageViewer = () => {
+        setSelectedImage(null);
     };
 
     return (
         <>
-            <div className="relative">
-                <div className={`fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center transition-opacity duration-500 ${showIntro ? 'opacity-0' : 'opacity-100'}`}>
-                    <motion.h1
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 1 }}
-                        className="text-white text-5xl font-bold"
-                    >
-                        My Photography Portfolio
-                    </motion.h1>
-                </div>
-
+            <div className="relative pt-16"> {/* Add padding-top to accommodate the navbar */}
                 <Masonry
                     breakpointCols={breakpoints}
-                    className="my-masonry-grid p-4"  // Add padding around the grid
+                    className="my-masonry-grid p-4"
                     columnClassName="my-masonry-grid_column"
                 >
                     {photos.map((photo, index) => (
@@ -80,25 +41,32 @@ export default function Portfolio() {
                             <img
                                 src={photo.src}
                                 alt={photo.alt}
-                                className="w-full h-auto rounded-lg shadow-md cursor-pointer"  // Make images clickable
-                                onClick={() => openLightbox(index)}
+                                className="w-full h-auto rounded-lg shadow-md cursor-pointer"
+                                loading="lazy" // Enable lazy loading
+                                onClick={() => openImageViewer(photo.src)}
                             />
                         </div>
                     ))}
                 </Masonry>
 
-                {lightboxOpen && (
-                    <Lightbox
-                        images={photos.map(photo => photo.src)}
-                        currentIndex={currentImageIndex}
-                        onClose={closeLightbox}
-                        onPrev={() =>
-                            setCurrentImageIndex((currentImageIndex + photos.length - 1) % photos.length)
-                        }
-                        onNext={() =>
-                            setCurrentImageIndex((currentImageIndex + 1) % photos.length)
-                        }
-                    />
+                {selectedImage && (
+                    <div
+                        className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
+                        onClick={closeImageViewer} // Close on clicking anywhere outside the image
+                    >
+                        <div
+                            className="relative max-w-[90%] max-h-[90%] flex items-center justify-center"
+                            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the image container
+                        >
+                            <img
+                                src={selectedImage}
+                                alt="Selected"
+                                className="max-w-full max-h-full object-contain"
+                                style={{ maxWidth: '90vw', maxHeight: '90vh' }}
+                                // Ensure the image is appropriately sized and centered
+                            />
+                        </div>
+                    </div>
                 )}
 
                 <div className="w-full text-center py-10">

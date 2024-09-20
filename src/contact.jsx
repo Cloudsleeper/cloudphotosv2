@@ -1,5 +1,49 @@
+import React, { useState } from 'react';
+import emailjs from 'emailjs-com';
+import { FaGithub, FaInstagram } from 'react-icons/fa'; // Import icons
 
 export default function Contact() {
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        message: '',
+    });
+    const [isSending, setIsSending] = useState(false);
+    const [status, setStatus] = useState('');
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setIsSending(true);
+
+        emailjs.sendForm(
+            import.meta.env.VITE_EMAILJS_SERVICE_ID,
+            import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+            e.target,
+            import.meta.env.VITE_EMAILJS_USER_ID
+        )
+            .then((result) => {
+                setIsSending(false);
+                setStatus('Message sent successfully!');
+                setFormData({
+                    name: '',
+                    email: '',
+                    message: '',
+                });
+            }, (error) => {
+                setIsSending(false);
+                setStatus('Error sending message.');
+                console.error('EmailJS Error:', error.text);
+            });
+    };
+
     return (
         <div className="container mx-auto px-4 py-6">
             <div className="mb-5 mt-3">
@@ -12,11 +56,7 @@ export default function Contact() {
                 </div>
 
                 <div className="w-full lg:w-1/2 px-0 flex items-center mx-auto p-6">
-                    <form
-                        action="https://formsubmit.co/cloudsleeper03@icloud.com"
-                        method="POST"
-                        className="w-full"
-                    >
+                    <form onSubmit={handleSubmit} className="w-full">
                         <div className="flex flex-wrap -mx-2 mb-4">
                             <div className="w-full lg:w-1/2 px-2 mb-4 lg:mb-0">
                                 <label htmlFor="name" className="sr-only">Name</label>
@@ -26,6 +66,8 @@ export default function Contact() {
                                     name="name"
                                     placeholder="Name"
                                     type="text"
+                                    value={formData.name}
+                                    onChange={handleChange}
                                     required
                                 />
                             </div>
@@ -37,6 +79,8 @@ export default function Contact() {
                                     name="email"
                                     placeholder="Email"
                                     type="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
                                     required
                                 />
                             </div>
@@ -48,15 +92,32 @@ export default function Contact() {
                             name="message"
                             placeholder="Message"
                             rows="5"
+                            value={formData.message}
+                            onChange={handleChange}
                             required
                         ></textarea>
                         <button
-                            className="bg-white text-black py-2 px-4 rounded hover:bg-yellow-400"
+                            className={`bg-white text-black py-2 px-4 rounded ${isSending ? 'opacity-50 cursor-not-allowed' : 'hover:bg-yellow-400'}`}
                             type="submit"
+                            disabled={isSending}
                         >
-                            Send
+                            {isSending ? 'Sending...' : 'Send'}
                         </button>
+                        {status && <p className="mt-4 text-center">{status}</p>}
                     </form>
+                </div>
+
+                {/* Social Media Links */}
+                <div className="mt-8 text-center">
+                    <p className="text-xl mb-4">Follow or Contact me on:</p>
+                    <div className="flex justify-center space-x-4">
+                        <a href="https://github.com/Cloudsleeper" target="_blank" rel="noopener noreferrer">
+                            <FaGithub className="text-3xl text-white-800 hover:text-yellow-400" />
+                        </a>
+                        <a href="https://www.instagram.com/cloudsleeper03/" target="_blank" rel="noopener noreferrer">
+                            <FaInstagram className="text-3xl text-white-600 hover:text-yellow-400" />
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

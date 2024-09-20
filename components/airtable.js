@@ -29,13 +29,26 @@ export const fetchPosts = async () => {
 };
 
 export const fetchPostById = async (id) => {
-    const record = await base(TABLE_ID).find(id);
-    return {
-        id: record.id,
-        title: record.get('title'),
-        body: record.get('body'),
-        date: record.get('date'),
-        img: record.get('img'),
-        content: record.get('Content')
-    };
+    try {
+        const record = await base(TABLE_ID).find(id);
+
+        // Extract image URLs
+        const headerImgField = record.get('headerImage'); // Adjust 'headerImage' to your actual Airtable field name
+        const additionalImgField = record.get('additionalImages'); // Adjust 'additionalImages' to your actual Airtable field name
+        const headerImgUrl = headerImgField ? headerImgField[0].url : null;
+        const additionalImgUrls = additionalImgField && additionalImgField.length > 0 ? additionalImgField.map(img => img.url) : [];
+
+        return {
+            id: record.id,
+            title: record.get('title'),
+            body: record.get('body'),
+            date: record.get('date'),
+            headerImage: headerImgUrl, // Pass header image URL
+            images: additionalImgUrls, // Pass array of additional image URLs
+            content: record.get('Content')
+        };
+    } catch (error) {
+        console.error('Error fetching post by ID:', error);
+        throw error;
+    }
 };

@@ -90,7 +90,7 @@ export default function Home() {
             <div className="px-8 sm:px-20 xl:px-8 py-8 flex max-lg:flex-col justify-center items-center gap-20 lg:gap-12">
                 <div className="relative w-full sm:w-3/4 md:w-[400px] md:h-[400px]">
                     <div className="absolute w-full h-full bg-white top-10 right-10"></div>
-                    <img className="relative w-full h-full object-cover" src="/img/MichaelandNickWithCoffee.webp" alt="Description"/>
+                    <img className="relative w-full h-full object-cover" src="/img/pentaxcamera.webp" alt="Description"/>
                 </div>
                 <p className="text-2xl w-full lg:w-[700px]">
                     I'm a photographer based in <strong>Colorado Springs</strong>. My photography mostly consists of scenes that I capture because something in them intrigues me. This usually means foggy atmospheric landscapes, details of everyday life or lighting that I just can't resist to photograph. I also have a collection of self-portraits because I like to have subjects in my landscapes, but most of the time I go out and shoot alone. I started photography about a year ago and learned Affinity Photo 2 around the same time as well. My editing and photography back then were terrible at the time, but I slowly became better at the craft and also found my space in photography.

@@ -5,9 +5,10 @@ import 'tailwindcss/tailwind.css';
 const photos = [
     { src: '/img/MichaelandNickWithCoffee.webp', alt: 'Michael and Nick with coffee' },
     { src: '/img/Train.webp', alt: 'Train' },
-    { src: '/img/NickLookingOut.webp', alt: 'Nick looking out' },
-    { src: '/img/UndergroundClub.jpg', alt: 'Underground club' },
-    // Ensure there are no duplicate entries or filter them if necessary
+    { src: '/img/NickEnjoyingTheView.webp', alt: 'Nick looking out' },
+    { src: '/img/MichealOnTheBoat.webp', alt: 'Seattle Ferry Ride' },
+    { src: '/img/MichaelisinHeaven.webp', alt: 'PikesPeak View' },
+    { src: '/img/MichealRelaxing.webp', alt: 'CrippleCreek Old Bus Stop' },
 ];
 
 const breakpoints = {
@@ -29,53 +30,65 @@ export default function Portfolio() {
     };
 
     return (
-        <>
-            <div className="relative pt-16"> {/* Add padding-top to accommodate the navbar */}
+        <div className="bg-black min-h-screen text-white">
+            <div className="container mx-auto px-4 pt-20 pb-12">
+                <h1 className="text-5xl font-bold text-center mb-8 text-white">My Portfolio</h1>
+
                 <Masonry
                     breakpointCols={breakpoints}
-                    className="my-masonry-grid p-4"
+                    className="my-masonry-grid"
                     columnClassName="my-masonry-grid_column"
                 >
                     {photos.map((photo, index) => (
-                        <div key={index} className="p-2">
-                            <img
-                                src={photo.src}
-                                alt={photo.alt}
-                                className="w-full h-auto rounded-lg shadow-md cursor-pointer"
-                                loading="lazy" // Enable lazy loading
-                                onClick={() => openImageViewer(photo.src)}
-                            />
+                        <div key={index} className="mb-4">
+                            <div className="overflow-hidden rounded-lg transition-all duration-300 hover:shadow-[0_0_10px_rgba(255,255,255,0.1)]">
+                                <img
+                                    src={photo.src}
+                                    alt={photo.alt}
+                                    className="w-full h-auto object-cover transition-transform duration-300 hover:scale-105 cursor-pointer"
+                                    loading="lazy"
+                                    onClick={() => openImageViewer(photo.src)}
+                                    style={{ maxHeight: '300px' }}
+                                />
+                            </div>
                         </div>
                     ))}
                 </Masonry>
 
                 {selectedImage && (
                     <div
-                        className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
-                        onClick={closeImageViewer} // Close on clicking anywhere outside the image
+                        className="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center z-50"
+                        onClick={closeImageViewer}
                     >
                         <div
                             className="relative max-w-[90%] max-h-[90%] flex items-center justify-center"
-                            onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside the image container
+                            onClick={(e) => e.stopPropagation()}
                         >
                             <img
                                 src={selectedImage}
                                 alt="Selected"
                                 className="max-w-full max-h-full object-contain"
-                                style={{ maxWidth: '90vw', maxHeight: '90vh' }}
-                                // Ensure the image is appropriately sized and centered
+                                style={{ maxHeight: '80vh' }}
                             />
+                            <button
+                                className="absolute top-4 right-4 text-white bg-white bg-opacity-10 rounded-full p-2 hover:bg-opacity-25 transition-colors duration-200"
+                                onClick={closeImageViewer}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
                         </div>
                     </div>
                 )}
 
-                <div className="w-full text-center py-10">
-                    <h2 className="text-4xl font-bold">About My Work</h2>
-                    <p className="text-lg mt-4 max-w-2xl mx-auto">
-                        I’m a photographer based in Colorado Springs. My work primarily captures scenes that intrigue me, often focusing on foggy landscapes, intriguing details, or captivating lighting. I also enjoy including self-portraits in my landscapes but usually shoot alone. I started photography a year ago and have since improved my craft and found my unique style.
+                <div className="mt-16 border border-gray-800 rounded-lg p-8">
+                    <h2 className="text-4xl font-bold text-center text-white mb-6">About My Work</h2>
+                    <p className="text-lg text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                        I'm a photographer based in Colorado Springs. My work primarily captures scenes that intrigue me, often focusing on foggy landscapes, intriguing details, or captivating lighting. I also enjoy including self-portraits in my landscapes but usually shoot alone. I started photography a year ago and have since improved my craft and found my unique style.
                     </p>
                 </div>
             </div>
-        </>
+        </div>
     );
 }

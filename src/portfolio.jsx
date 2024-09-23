@@ -9,6 +9,10 @@ const photos = [
     { src: '/img/MichealOnTheBoat.webp', alt: 'Seattle Ferry Ride' },
     { src: '/img/MichaelisinHeaven.webp', alt: 'PikesPeak View' },
     { src: '/img/MichealRelaxing.webp', alt: 'CrippleCreek Old Bus Stop' },
+    { src: '/img/nickfog.webp', alt: 'Nick Looking Out At The World' },
+    { src: '/img/Bridget.webp', alt: 'Me in brisket cosplay' },
+    { src: '/img/MichaelInNature.webp', alt: 'Cutie Patootie' },
+
 ];
 
 const breakpoints = {

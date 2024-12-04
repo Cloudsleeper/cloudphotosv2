@@ -27,11 +27,11 @@ export default function BlogIndex() {
             {posts.map(post => (
                     <div key={post.id} className="mb-8 p-4 border-b border-gray-300">
                         <h2 className="text-2xl font-semibold mb-2">
-                            <Link to={`/blog/${post.id}`} className="text-yellow-400 hover:underline">
+                            <Link to={`/blog/${post.id}`} className="text-white hover:text-black">
                                 {post.fields.title}
                             </Link>
                         </h2>
-                        <p className="text-gray-600 mb-4">{post.fields.date}</p>
+                        <p className="text-white mb-4">{post.fields.date}</p>
                         <p className="text-lg">{post.fields.excerpt}</p>
                     </div>
             ))}

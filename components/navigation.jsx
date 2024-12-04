@@ -10,22 +10,24 @@ export default function Navigation() {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    const isActive = (path) => location.pathname === path;
+
     return (
         <motion.div
             initial={{ top: -96, opacity: 0 }}
             animate={{ top: 0, opacity: 1 }}
             transition={{ duration: 1, ease: "easeInOut" }}
-            className="fixed top-0 left-0 right-0 px-6 py-4 flex items-center z-30 bg-black text-white"
+            className="fixed top-0 left-0 right-0 px-6 py-4 flex items-center z-30 bg-[#000000] text-[#ffffff]"
         >
             {/* Logo */}
             <img src="/camerafaviconwhite.png" className="w-8 h-8 md:w-10 md:h-10" alt="Logo" />
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex flex-grow justify-end items-center gap-6 text-gray-400">
-                <Link className={`transition ${location.pathname === "/" && "text-white"}`} to="/">Home</Link>
-                <Link className={`transition ${location.pathname === "/portfolio" && "text-white"}`} to="/portfolio">Portfolio</Link>
-                <Link className={`transition ${location.pathname === "/blog" && "text-white"}`} to="/blog">Blog</Link>
-                <Link className={`transition ${location.pathname === "/contact" && "text-white"}`} to="/contact">Contact</Link>
+                <Link className={`nav-link transition ${isActive("/") ? "active text-white" : ""}`} to="/">Home</Link>
+                <Link className={`nav-link transition ${isActive("/projects") ? "active text-white" : ""}`} to="/projects">Projects</Link>
+                <Link className={`nav-link transition ${isActive("/gallery") ? "active text-white" : ""}`} to="/gallery">Gallery</Link>
+                <Link className={`nav-link transition ${isActive("/contact") ? "active text-white" : ""}`} to="/contact">Contact</Link>
             </div>
 
             {/* Mobile Menu Button */}
@@ -39,7 +41,7 @@ export default function Navigation() {
             </button>
 
             {/* Mobile Navigation */}
-            <div className={`fixed top-0 right-0 w-2/3 md:w-1/3 h-full bg-black text-white transition-transform transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden`}>
+            <div className={`fixed top-0 right-0 w-2/3 md:w-1/3 h-full bg-[#000000] text-white transition-transform transform ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'} md:hidden`}>
                 <button
                     className="absolute top-4 right-4 text-gray-400"
                     onClick={toggleMenu}
@@ -49,10 +51,10 @@ export default function Navigation() {
                     </svg>
                 </button>
                 <div className="flex flex-col items-center mt-12">
-                    <Link className={`py-4 text-lg ${location.pathname === "/" && "text-white"}`} to="/" onClick={toggleMenu}>Home</Link>
-                    <Link className={`py-4 text-lg ${location.pathname === "/portfolio" && "text-white"}`} to="/portfolio" onClick={toggleMenu}>Portfolio</Link>
-                    <Link className={`py-4 text-lg ${location.pathname === "/blog" && "text-white"}`} to="/blog" onClick={toggleMenu}>Blog</Link>
-                    <Link className={`py-4 text-lg ${location.pathname === "/contact" && "text-white"}`} to="/contact" onClick={toggleMenu}>Contact</Link>
+                    <Link className={`nav-link py-4 text-lg ${isActive("/") ? "active text-white" : ""}`} to="/" onClick={toggleMenu}>Home</Link>
+                    <Link className={`nav-link py-4 text-lg ${isActive("/projects") ? "active text-white" : ""}`} to="/projects" onClick={toggleMenu}>Projects</Link>
+                    <Link className={`nav-link py-4 text-lg ${isActive("/gallery") ? "active text-white" : ""}`} to="/gallery" onClick={toggleMenu}>Gallery</Link>
+                    <Link className={`nav-link py-4 text-lg ${isActive("/contact") ? "active text-white" : ""}`} to="/contact" onClick={toggleMenu}>Contact</Link>
                 </div>
             </div>
         </motion.div>

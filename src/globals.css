@@ -1,12 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Shadows+Into+Light&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 html {
-    background-color: #000;
-    color: #fff;
-    font-family: "Hanken Grotesk", sans-serif;
+    background-color: #000000;
+    color: #ffffff;
+    font-family: "Caveat", cursive;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
 
 @keyframes bounce {
@@ -26,13 +28,19 @@ html {
 /* Masonry Grid Styles */
 .my-masonry-grid {
     display: flex;
-    margin-left: -30px; /* Adjust if needed */
     width: auto;
+    gap: 1.5rem; /* Increased gap between images */
 }
 
 .my-masonry-grid_column {
-    padding-left: 30px; /* Adjust if needed */
     background-clip: padding-box;
+}
+
+.my-masonry-grid img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin-bottom: 1.5rem; /* Consistent vertical spacing */
 }
 
 /* HTML: <div class="loader"></div> */
@@ -45,3 +53,24 @@ html {
     animation: l1 .75s infinite;
   }
   @keyframes l1 {to{transform: rotate(.5turn)}}
+
+.nav-link {
+    position: relative;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 4px;
+    bottom: -4px;
+    left: 0;
+    background-color: #043927;
+    transform: scaleX(0);
+    transition: transform 0.3s ease-in-out;
+    border-radius: 2px;
+}
+
+.nav-link.active::after {
+    transform: scaleX(1);
+}

@@ -1,18 +1,38 @@
 import { useState } from "react";
 import Masonry from 'react-masonry-css';
 import 'tailwindcss/tailwind.css';
+import { Cloudinary } from "@cloudinary/url-gen";
 
+// Initialize Cloudinary
+const cld = new Cloudinary({
+    cloud: {
+        cloudName: 'dqm0d9qcv' // Replace with your cloud name
+    }
+});
+
+// Update photos array to use Cloudinary URLs
 const photos = [
-    { src: '/img/MichaelandNickWithCoffee.webp', alt: 'Michael and Nick with coffee' },
-    { src: '/img/Train.webp', alt: 'Train' },
-    { src: '/img/NickEnjoyingTheView.webp', alt: 'Nick looking out' },
-    { src: '/img/MichealOnTheBoat.webp', alt: 'Seattle Ferry Ride' },
-    { src: '/img/MichaelisinHeaven.webp', alt: 'PikesPeak View' },
-    { src: '/img/MichealRelaxing.webp', alt: 'CrippleCreek Old Bus Stop' },
-    { src: '/img/nickfog.webp', alt: 'Nick Looking Out At The World' },
-    { src: '/img/Bridget.webp', alt: 'Me in brisket cosplay' },
-    { src: '/img/MichaelInNature.webp', alt: 'Cutie Patootie' },
-
+    {
+        src: 'DSCF3860_k57ism', // Just the file name without extension
+        alt: 'SilverCar'
+    },
+    {
+        src: 'KaiOnRocks2_ch5hcg', // Just the file name without extension
+        alt: 'KaiOnRocks'
+    },
+    {
+        src: 'MichaelInNature_xzljtk', // Just the file name without extension
+        alt: 'MichaelInNature'
+    },
+    {
+        src: 'kai1_tayxli', // Just the file name without extension
+        alt: 'KaiInBotanicGardens'
+    },
+    {
+        src: 'MichaelisinHeaven_xuhutu', // Just the file name without extension
+        alt: 'MichaelisinHeaven'
+    },
+    // ... other photos
 ];
 
 const breakpoints = {
@@ -25,6 +45,11 @@ const breakpoints = {
 export default function Portfolio() {
     const [selectedImage, setSelectedImage] = useState(null);
 
+    // Helper function to get Cloudinary URL
+    const getCloudinaryUrl = (imageName) => {
+        return `https://res.cloudinary.com/dqm0d9qcv/image/upload/q_auto,f_auto/${imageName}`;
+    };
+
     const openImageViewer = (src) => {
         setSelectedImage(src);
     };
@@ -34,7 +59,7 @@ export default function Portfolio() {
     };
 
     return (
-        <div className="bg-black min-h-screen text-white">
+        <div className="bg-#232325 min-h-screen text-white">
             <div className="container mx-auto px-4 pt-20 pb-12">
                 <h1 className="text-5xl font-bold text-center mb-8 text-white">My Portfolio</h1>
 
@@ -47,11 +72,11 @@ export default function Portfolio() {
                         <div key={index} className="mb-4">
                             <div className="overflow-hidden rounded-lg transition-all duration-300 hover:shadow-[0_0_10px_rgba(255,255,255,0.1)]">
                                 <img
-                                    src={photo.src}
+                                    src={getCloudinaryUrl(photo.src)}
                                     alt={photo.alt}
                                     className="w-full h-auto object-cover transition-transform duration-300 hover:scale-105 cursor-pointer"
                                     loading="lazy"
-                                    onClick={() => openImageViewer(photo.src)}
+                                    onClick={() => openImageViewer(getCloudinaryUrl(photo.src))}
                                     style={{ maxHeight: '300px' }}
                                 />
                             </div>
@@ -61,18 +86,18 @@ export default function Portfolio() {
 
                 {selectedImage && (
                     <div
-                        className="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center z-50"
+                        className="fixed inset-0 bg-[#232325] bg-opacity-95 flex items-center justify-center z-50"
                         onClick={closeImageViewer}
                     >
                         <div
-                            className="relative max-w-[90%] max-h-[90%] flex items-center justify-center"
+                            className="relative max-w-[95%] max-h-[95%] flex items-center justify-center"
                             onClick={(e) => e.stopPropagation()}
                         >
                             <img
                                 src={selectedImage}
                                 alt="Selected"
                                 className="max-w-full max-h-full object-contain"
-                                style={{ maxHeight: '80vh' }}
+                                style={{ maxHeight: '90vh', maxWidth: '90vw' }}
                             />
                             <button
                                 className="absolute top-4 right-4 text-white bg-white bg-opacity-10 rounded-full p-2 hover:bg-opacity-25 transition-colors duration-200"

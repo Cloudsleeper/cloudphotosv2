@@ -1,10 +1,10 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Home from './index';
-import BlogIndex from './blog';
-import BlogPage from './blog/page';
 import Navigation from '../components/navigation';
 import Contact from './contact.jsx';
-import Portfolio from './portfolio.jsx';
+import Projects from './projects.jsx';
+import Gallery from './gallery.jsx';
+import FilmProject from './filmprojectpage.jsx';
 
 function Router() {
     return (
@@ -12,10 +12,10 @@ function Router() {
             <Navigation />
             <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/blog" element={<BlogIndex />} />
-                <Route path="/blog/:id" element={<BlogPage />} />
+                <Route path="/gallery" element={<Gallery />} />
                 <Route path="/contact" element={<Contact />} />
-                <Route path="/portfolio" element={<Portfolio />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/filmprojectpage" element={<FilmProject />} />
             </Routes>
         </BrowserRouter>
     );

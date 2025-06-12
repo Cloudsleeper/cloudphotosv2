@@ -1,81 +1,183 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Masonry from 'react-masonry-css';
 import 'tailwindcss/tailwind.css';
-import { Cloudinary } from "@cloudinary/url-gen";
+import OAuth from 'oauth-1.0a';
+import CryptoJS from 'crypto-js';
 
-const cld = new Cloudinary({
-    cloud: {
-        cloudName: 'dqm0d9qcv'
-    }
-});
-
-const photos = [
-    {
-        src: '16_Kodak_Ultramax_400_2_esijcn',
-        alt: 'Birds'
-    },
-    {
-        src: '28_Candido_200_35mm_bwxapk',
-        alt: 'Yellow trees'
-    },
-    {
-        src: 'MichaelInNature_xzljtk',
-        alt: 'MichaelInNature'
-    },
-    {
-        src: 'kai1_tayxli',
-        alt: 'KaiInBotanicGardens'
-    },
-    {
-        src: 'MichaelisinHeaven_xuhutu',
-        alt: 'MichaelisinHeaven'
-    },
-    {
-        src: '34_tczvth',
-        alt: 'Abstract landscape'
-    },
-];
+// Configuration for SmugMug API
+const SMUGMUG_API_URL = 'https://api.smugmug.com/api/v2';
+const CONSUMER_KEY = 'xsnnk5xB34tqWTZM5rjJnVSNBXwRHBnq';
+const CONSUMER_SECRET = 'MB4hLVbCcP3JCkKM9kcxdvB4PjX36qtpB2s8kLGDZ27n7f8hKcqdTZWTg7SbnTpX';
+const ACCESS_TOKEN = 'zGxfbcMwKNJvpLDWGCf5qcLr46xsTPHR';
+const ACCESS_TOKEN_SECRET = 'FvkNjg2GG9JR6vQP53V3Tmc2SBt3B8MvBJrQvbHKBRKjtvnSw3hw23LdmtznBS5M';
+const ALBUM_ID = 'BsrhhG';
 
 const breakpoints = {
     default: 4,
-    1024: 4, // Maintain 4 columns on larger screens
-    768: 2,  // 2 columns on tablet/mobile
-    480: 2   // Keep 2 columns on smaller mobile
+    1024: 3,
+    768: 2,
+    480: 1
 };
 
 export default function Portfolio() {
+    const [photos, setPhotos] = useState([]);
     const [selectedImage, setSelectedImage] = useState(null);
+    const [headerImage, setHeaderImage] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [debugInfo, setDebugInfo] = useState(null);
 
-    const getCloudinaryUrl = (imageName, isGalleryImage = true) => {
-        // For gallery images, limit width to 800px for better quality
-        // For lightbox, use full resolution
-        const width = isGalleryImage ? 'w_800,' : '';
-        return `https://res.cloudinary.com/dqm0d9qcv/image/upload/${width}q_auto,f_auto/${imageName}`;
+    // Initialize OAuth
+    const initOAuth = () => {
+        return OAuth({
+            consumer: {
+                key: CONSUMER_KEY,
+                secret: CONSUMER_SECRET
+            },
+            signature_method: 'HMAC-SHA1',
+            hash_function(base_string, key) {
+                return CryptoJS.HmacSHA1(base_string, key).toString(CryptoJS.enc.Base64);
+            }
+        });
     };
 
-    const openImageViewer = (src) => {
-        setSelectedImage(getCloudinaryUrl(src, false));
+    // Generate OAuth headers for a request
+    const getAuthHeader = useCallback((url, method) => {
+        const oauth = initOAuth();
+        const requestData = {
+            url: url,
+            method: method
+        };
+
+        const token = {
+            key: ACCESS_TOKEN,
+            secret: ACCESS_TOKEN_SECRET
+        };
+
+        return oauth.toHeader(oauth.authorize(requestData, token));
+    }, []);
+
+    // Fetch album images from SmugMug
+    const fetchAlbumImages = useCallback(async () => {
+        try {
+            setDebugInfo("Fetching images from SmugMug album...");
+
+            const url = `${SMUGMUG_API_URL}/album/${ALBUM_ID}!images`;
+            const authHeader = getAuthHeader(url, 'GET');
+
+            const response = await fetch(url, {
+                headers: {
+                    ...authHeader,
+                    'Accept': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`Failed to fetch photos with status ${response.status}: ${errorText}`);
+            }
+
+            const data = await response.json();
+            console.log("API Response:", data); // Log the full response for debugging
+
+            if (!data.Response || !data.Response.AlbumImage || data.Response.AlbumImage.length === 0) {
+                throw new Error('No images found in the specified album.');
+            }
+
+            setDebugInfo(`Fetched ${data.Response.AlbumImage.length} photos successfully`);
+            return data.Response.AlbumImage;
+        } catch (error) {
+            console.error('Error fetching album images:', error);
+            throw error;
+        }
+    }, [getAuthHeader]);
+
+    useEffect(() => {
+        // Initialize gallery
+        const initializeGallery = async () => {
+            try {
+                setLoading(true);
+                setDebugInfo("Initializing gallery...");
+
+                // Fetch photos from SmugMug
+                const photosData = await fetchAlbumImages();
+
+                if (photosData.length === 0) {
+                    setError('No photos found in your SmugMug album.');
+                    setLoading(false);
+                    return;
+                }
+
+                // Use the first photo as header
+                setHeaderImage(photosData[0]);
+
+                // Use the rest for the gallery
+                setPhotos(photosData.slice(1, 50)); // Limit to 50 images for better performance
+                setLoading(false);
+
+            } catch (error) {
+                console.error('Gallery initialization error:', error);
+                setError(`Failed to load gallery: ${error.message}`);
+                setLoading(false);
+            }
+        };
+
+        initializeGallery();
+    }, [fetchAlbumImages]);
+
+    const openImageViewer = (photo) => {
+        setSelectedImage(photo);
     };
 
     const closeImageViewer = () => {
         setSelectedImage(null);
     };
 
-    return (
-        <div className="min-h-screen bg-#1A1A19 text-white">
-            {/* Header Image with Centered Text */}
-            <div className="w-full h-[70vh] mb-8 relative">
-                <img
-                    src={getCloudinaryUrl('29_Fujifilm_Acros_II_100_osxu9f', false)} // Full res for header
-                    alt="Header"
-                    className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <h1 className="text-5xl md:text-6xl font-light text-white">
-                        Photography
-                    </h1>
-                </div>
+    if (loading) {
+        return (
+            <div className="min-h-screen bg-[#1A1A19] text-white flex flex-col items-center justify-center p-4">
+                <p className="mb-4">Loading gallery...</p>
+                {debugInfo && (
+                    <div className="mt-4 p-4 bg-gray-800 rounded max-w-lg overflow-auto">
+                        <p className="text-sm text-gray-400">Debug info:</p>
+                        <p className="text-sm text-gray-300 whitespace-pre-wrap">{debugInfo}</p>
+                    </div>
+                )}
             </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <div className="min-h-screen bg-[#1A1A19] text-white flex flex-col items-center justify-center p-4">
+                <p className="text-red-400 mb-4">{error}</p>
+                {debugInfo && (
+                    <div className="mt-4 p-4 bg-gray-800 rounded max-w-lg overflow-auto">
+                        <p className="text-sm text-gray-400">Debug info:</p>
+                        <p className="text-sm text-gray-300 whitespace-pre-wrap">{debugInfo}</p>
+                    </div>
+                )}
+            </div>
+        );
+    }
+
+    return (
+        <div className="min-h-screen bg-[#1A1A19] text-white">
+            {/* Header Image with Centered Text */}
+            {headerImage && (
+                <div className="w-full h-[70vh] mb-8 relative">
+                    <img
+                        src={headerImage.ArchivedUri || headerImage.ImageUrl}
+                        alt={headerImage.Title || "Header"}
+                        className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                        <h1 className="text-5xl md:text-6xl font-light text-white drop-shadow-lg">
+                            Photography
+                        </h1>
+                    </div>
+                </div>
+            )}
 
             {/* Description Section */}
             <div className="px-6 md:px-12 lg:px-24 mb-12">
@@ -95,14 +197,14 @@ export default function Portfolio() {
                     className="my-masonry-grid"
                     columnClassName="my-masonry-grid_column"
                 >
-                    {photos.map((photo, index) => (
-                        <div key={index} className="mb-4">
+                    {photos.map((photo) => (
+                        <div key={photo.ImageKey} className="mb-4">
                             <img
-                                src={getCloudinaryUrl(photo.src)}
-                                alt={photo.alt}
+                                src={photo.ArchivedUri || photo.ImageUrl}
+                                alt={photo.Title || photo.FileName || "Gallery image"}
                                 className="w-full cursor-pointer hover:opacity-90 transition-opacity duration-300"
                                 loading="lazy"
-                                onClick={() => openImageViewer(photo.src)}
+                                onClick={() => openImageViewer(photo)}
                             />
                         </div>
                     ))}
@@ -116,8 +218,8 @@ export default function Portfolio() {
                     onClick={closeImageViewer}
                 >
                     <img
-                        src={selectedImage}
-                        alt="Selected"
+                        src={selectedImage.ArchivedUri || selectedImage.ImageUrl}
+                        alt={selectedImage.Title || "Selected image"}
                         className="max-w-[90vw] max-h-[90vh] object-contain"
                         onClick={(e) => e.stopPropagation()}
                     />
@@ -136,7 +238,7 @@ export default function Portfolio() {
             <style jsx global>{`
                 .my-masonry-grid {
                     display: flex;
-                    margin-left: -24px; /* Increased gap between columns */
+                    margin-left: -24px;
                     width: auto;
                 }
 
@@ -146,7 +248,7 @@ export default function Portfolio() {
                 }
 
                 .my-masonry-grid_column > div {
-                    margin-bottom: 24px; /* Increased gap between rows */
+                    margin-bottom: 24px;
                 }
 
                 .my-masonry-grid img {
